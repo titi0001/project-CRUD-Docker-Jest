@@ -13,6 +13,13 @@ const readTalkerData = async () => {
   }
 };
 
+const readTalkerId = async (userId) => {
+  const data = await fs.readFile(path.resolve(__dirname, TALKERS_DATA_PATH));
+  const talkerId = JSON.parse(data).find(({ id }) => id === Number(userId));
+  return talkerId;
+};
+
 module.exports = {
   readTalkerData,
+  readTalkerId,
 };
