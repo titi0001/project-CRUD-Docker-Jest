@@ -1,5 +1,6 @@
 const fs = require('fs').promises;
 const path = require('path');
+const randToken = require('rand-token');
 
 const TALKERS_DATA_PATH = '../talker.json';
 
@@ -19,7 +20,13 @@ const readTalkerId = async (userId) => {
   return talkerId;
 };
 
+const readUser = (_email, _password) => {
+  const tokenUser = randToken.generate(16);
+  return tokenUser;
+};
+
 module.exports = {
   readTalkerData,
   readTalkerId,
+  readUser,
 };
