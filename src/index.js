@@ -1,5 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const { validateUser } = require('./middlewares/validateUsers');
+
 const { readTalkerData, readTalkerId, readUser } = require('./utils/fsUtils');
 
 const app = express();
@@ -35,7 +37,7 @@ app.get('/talker/:id', async (req, res) => {
   : res.status(HTTP_OK_STATUS).json(readId);
 });
 
-app.post('/login', async (req, res) => {
+app.post('/login', validateUser, async (req, res) => {
   const { email, password } = req.body;
   const tokenId = await readUser(email, password);
   res.status(HTTP_OK_STATUS).send({ token: tokenId });
