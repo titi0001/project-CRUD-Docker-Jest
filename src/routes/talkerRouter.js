@@ -1,4 +1,5 @@
 const express = require('express');
+require('express-async-errors');
 const { readTalkerData, readTalkerId, createNewUser } = require('../utils/fsUtils');
 const { validateToken, validateCreateUser } = require('../middleware/validateUsers');
 
@@ -25,9 +26,10 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', validateToken, validateCreateUser, async (req, res) => {
-  const { name, age, watchedAt, rate } = req.body;
-  const talkers = createNewUser(name, age, watchedAt, rate);
-  res.status(201).send({talkers.});
+  const newTalker = req.body;
+  const talkers = await createNewUser(newTalker);
+
+   return res.status(201).send(talkers.at(-1));
 });
 
 module.exports = router;

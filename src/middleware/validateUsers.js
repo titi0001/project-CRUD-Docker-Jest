@@ -1,20 +1,13 @@
 const Joi = require('joi').extend(require('@joi/date'));
 
-  const checkToken = Joi.object({
-    token: Joi.string().alphanum().length(16).required(),
-  }).messages({
-  'any.required': 'Token não encontrado',
-  'string.base': 'Token inválido',
-  'string.length': 'Token inválido',
-  });
-
 const validateToken = (req, res, next) => {
   const { authorization } = req.headers;
-  const { error } = checkToken.validate(authorization);
 
-  if (error !== undefined) {
-    return res.status(401).send({ message: error.details[0].message });
- } 
+  if (!authorization) { 
+    return res.status(401).json({ message: 'Token não encontrado' }); 
+  } if (authorization.length !== 16) { 
+    return res.status(401).send({ message: 'Token inválido' }); 
+  }  
   next();
 };
 
@@ -36,34 +29,45 @@ const validateUser = async (req, res, next) => {
    next();
 };
 
-  const checkUser = Joi.object({
+  const checkUser = Joi.object().keys({
     name: Joi.string().min(3).required(),
     age: Joi.number().strict().integer().min(18)
     .required(),
-    talk: Joi.object({
-      watchedAt: Joi.date().format('DD/MM/YYYY').raw().required(),
-      rate: Joi.number().min(1).max(5).required(),
-    }), 
+    talk: Joi.object().keys({
+      rate: Joi.number().strict().integer().min(1)
+      .max(5)
+      .required()
+      .messages({ 
+      'any.required': 'O campo "{#key}" é obrigatório',
+      'number.min': 'O campo "{#key}" deve ser um inteiro de 1 à 5',
+      'number.max': 'O campo "{#key}" deve ser um inteiro de 1 à 5',
+     }),
+      watchedAt: Joi.date().format('DD/MM/YYYY').raw().required()
+      .messages({ 
+      'any.required': 'O campo "{#key}" é obrigatório',
+     }), 
+    }).required(),
   }).required().messages({
     'any.required': 'O campo {#label} é obrigatório',
     'string.min': 'O {#label} deve ter pelo menos {#limit} caracteres',
     'number.min': 'A pessoa palestrante deve ser maior de idade',
-    'date.format': 'O {#label} deve ter o formato {#format}',
-    'number.max': 'O campo {#label} deve ser um inteiro 1 a 5',
+    'number.integer': 'O campo "{#key}" deve ser um inteiro de 1 à 5',
+    'date.format': 'O campo "{#key}" deve ter o formato "dd/mm/aaaa"',
   });
 
 const validateCreateUser = async (req, res, next) => {
-  const { name, age, talk, watchedAt, rate } = req.body;
-  const { error } = checkUser.validate({ name, age, talk, watchedAt, rate });
+  const userCreate = req.body;
+  const { error } = await checkUser.validate(userCreate);
 
   if (error !== undefined) {
-     return res.status(401).send({ message: error.details[0].message });
+     return res.status(400).send({ message: error.details[0].message });
   } 
   next();
 };
 
 module.exports = { 
   validateUser,
-  validateCreateUser,
   validateToken,
+  validateCreateUser,
+  
  };

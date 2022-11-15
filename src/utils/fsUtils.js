@@ -20,12 +20,13 @@ const readTalkerId = async (userId) => {
   return talkerId;
 };
 
-const readUserToken = (_email, _password) => {
+const readUserToken = async (_email, _password) => {
   const tokenUser = randToken.generate(16);
   return tokenUser;
 };
 
-const createNewUser = async ({ name, age, watchedAt, rate }) => {
+const createNewUser = async (newTalker) => {
+  const { name, age, talk: { watchedAt, rate } } = newTalker;
   const talker = await readTalkerData();
   const id = Number(talker[talker.length - 1].id) + 1;
   talker.push({ name,
@@ -36,8 +37,8 @@ const createNewUser = async ({ name, age, watchedAt, rate }) => {
     rate,
   },
    });
-  await fs.writeFile(TALKERS_DATA_PATH, JSON.stringify(talker, null, 2));
-  return id;
+  await fs.writeFile((path.resolve(__dirname, TALKERS_DATA_PATH)), JSON.stringify(talker, null, 2));
+  return talker;
 };
 
 module.exports = {
