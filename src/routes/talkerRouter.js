@@ -1,6 +1,12 @@
 const express = require('express');
+
 require('express-async-errors');
-const { readTalkerData, readTalkerId, createNewUser } = require('../utils/fsUtils');
+
+const { readTalkerData,
+        readTalkerId,
+        createNewUser,
+        createNewEditTalker } = require('../utils/fsUtils');
+
 const { validateToken, validateCreateUser } = require('../middleware/validateUsers');
 
 const router = express.Router();
@@ -30,6 +36,14 @@ router.post('/', validateToken, validateCreateUser, async (req, res) => {
   const talkers = await createNewUser(newTalker);
 
    return res.status(201).send(talkers.at(-1));
+});
+
+router.put('/:id', validateToken, validateCreateUser, async (req, res) => {
+  const { id } = req.params;
+  const editTalker = req.body;
+  const newEditTalker = await createNewEditTalker(id, editTalker);
+  
+  return res.status(200).send(newEditTalker);
 });
 
 module.exports = router;

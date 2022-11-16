@@ -41,9 +41,28 @@ const createNewUser = async (newTalker) => {
   return talker;
 };
 
+const createNewEditTalker = async (reqId, editTalker) => {
+  const editTalkers = await readTalkerData();
+  const { name, age, talk: { watchedAt, rate } } = editTalker;
+  const findIdTalker = await readTalkerId(reqId);
+  const edit = {
+    ...findIdTalker,
+    name,
+    age,
+    talk: { watchedAt, rate },
+  };
+  const endTalkers = editTalkers
+  .reduce((prev, cur) => (cur.id === edit.id ? [...prev, edit] : [...prev, cur]), []);
+  
+  await
+  fs.writeFile((path.resolve(__dirname, TALKERS_DATA_PATH)), JSON.stringify(endTalkers, null, 2));
+  return edit;
+};
+
 module.exports = {
   readTalkerData,
   readTalkerId,
   readUserToken,
   createNewUser,
+  createNewEditTalker,
 };
