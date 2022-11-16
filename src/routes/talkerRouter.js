@@ -35,7 +35,7 @@ router.post('/', validateToken, validateCreateUser, async (req, res) => {
   const newTalker = req.body;
   const talkers = await createNewUser(newTalker);
 
-   return res.status(201).send(talkers.length - 1);
+   return res.status(201).send(talkers[talkers.length - 1]);
 });
 
 router.put('/:id', validateToken, validateCreateUser, async (req, res) => {
