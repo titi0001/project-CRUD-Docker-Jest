@@ -59,10 +59,19 @@ const createNewEditTalker = async (reqId, editTalker) => {
   return edit;
 };
 
+const deleteTalkers = async (delId) => {
+  const data = await fs.readFile(path.resolve(__dirname, TALKERS_DATA_PATH));
+  const delTalkerId = JSON.parse(data).filter(({ id }) => id !== Number(delId));
+  fs.writeFile((path.resolve(__dirname, TALKERS_DATA_PATH)), JSON.stringify(delTalkerId, null, 2));
+
+  return delTalkerId;
+};
+
 module.exports = {
   readTalkerData,
   readTalkerId,
   readUserToken,
   createNewUser,
   createNewEditTalker,
+  deleteTalkers,
 };

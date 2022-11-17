@@ -5,7 +5,8 @@ require('express-async-errors');
 const { readTalkerData,
         readTalkerId,
         createNewUser,
-        createNewEditTalker } = require('../utils/fsUtils');
+        createNewEditTalker,
+        deleteTalkers } = require('../utils/fsUtils');
 
 const { validateToken, validateCreateUser } = require('../middleware/validateUsers');
 
@@ -36,6 +37,7 @@ router.post('/', validateToken, validateCreateUser, async (req, res) => {
   const talkers = await createNewUser(newTalker);
 
    return res.status(201).send(talkers[talkers.length - 1]);
+  //  ---talkers.at(-1)--- Esperando a Trybe atulizar o node v14 usado no avaliador do aws para a node v16 , que é compatível com a propriedade .at
 });
 
 router.put('/:id', validateToken, validateCreateUser, async (req, res) => {
@@ -46,9 +48,11 @@ router.put('/:id', validateToken, validateCreateUser, async (req, res) => {
   return res.status(200).send(newEditTalker);
 });
 
-// router.delete('/:id', validateToken, async (req, res) => {
-//    const { id } = req.params;
-//    const 
-// });
+router.delete('/:id', validateToken, async (req, res) => {
+   const { id } = req.params;
+   await deleteTalkers(id);
+
+   return res.status(204).end();
+});
 
 module.exports = router;
