@@ -6,7 +6,8 @@ const { readTalkerData,
         readTalkerId,
         createNewUser,
         createNewEditTalker,
-        deleteTalkers } = require('../utils/fsUtils');
+        deleteTalkers,
+        searchItemTalker } = require('../utils/fsUtils');
 
 const { validateToken, validateCreateUser } = require('../middleware/validateUsers');
 
@@ -14,6 +15,13 @@ const router = express.Router();
 
 const HTTP_OK_STATUS = 200;
 const HTTP_NOTFOUND_STATUS = 404;
+
+router.get('/search', validateToken, async (req, res) => {
+  const { q } = req.query;
+  const searchTalkers = await searchItemTalker(q);
+
+  return res.status(HTTP_OK_STATUS).send(searchTalkers);
+});
 
 router.get('/', async (_req, res) => {
    const talker = await readTalkerData();

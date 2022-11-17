@@ -67,6 +67,14 @@ const deleteTalkers = async (delId) => {
   return delTalkerId;
 };
 
+const searchItemTalker = async (searchQuery) => {
+  const data = await readTalkerData();
+  // if (!searchQuery) return data;
+  
+  const findQuery = data.filter(({ name }) => (name.includes(searchQuery)));
+  return findQuery;
+};
+
 module.exports = {
   readTalkerData,
   readTalkerId,
@@ -74,4 +82,5 @@ module.exports = {
   createNewUser,
   createNewEditTalker,
   deleteTalkers,
+  searchItemTalker,
 };
