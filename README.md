@@ -1,52 +1,52 @@
-# Projeto Talker-Manager
+# Talker-Manager project
  
-# Contexto
+# context
  
 
-Esta API fornece uma solução moderna e avançada para o gerenciamento de informações de pessoas, desenvolvida com o framework Express e a linguagem de programação Node.js. Ela oferece uma variedade de recursos para realizar as operações CRUD (Criar, Ler, Atualizar e Deletar) de forma eficiente e segura.
+This API provides a modern and advanced solution for managing people's information, developed with the Express framework and the Node.js programming language. It offers a variety of features to perform CRUD (Create, Read, Update and Delete) operations efficiently and securely.
 
-Com esta API, é possível facilmente realizar operações de pesquisar, cadastrar, editar e excluir pessoas cadastradas, garantindo assim a organização e segurança dos dados. O armazenamento dos dados é feito através do uso do módulo fs, que escreve em um arquivo Json, proporcionando uma implementação simples e rápida para a necessidade. Além disso, é possível acessar a documentação construída no swagger disponível na rota "/doc" para uma melhor compreensão e utilização da API.
+With this API, it is possible to easily carry out operations of searching, registering, editing and deleting registered people, thus guaranteeing the organization and security of the data. Data storage is done using the fs module, which writes in a Json file, providing a simple and fast implementation for the need. In addition, you can access the documentation built into the swagger available in the "/doc" route for a better understanding and use of the API.
 
 
 
-# Tecnologias usadas
+# Technologies used
 
-Back-end:
+Backend:
 > Node.js
 
-> Express
+> express
 
-> Docker
+> docker
  
 
-# Executando aplicação
+# Running application
 
-## Instalação com docker
+## Installation with docker
 
-* Rode o serviço node com o comando:
- > docker-compose up -d 
+* Run the node service with the command:
+  > docker-compose up -d
  
-Esse serviço irá inicializar um container chamado talker_manager
+This service will start up a container called talker_manager
 
-* Use o comando:
- > docker exec -it talker_manager bash
+* Use the command:
+  > docker exec -it talker_manager bash
 
- Ele te dará acesso ao terminal interativo do container criado pelo compose, que está rodando em segundo plano
+  It will give you access to the interactive terminal of the container created by compose, which is running in the background
  
 
-* Instale as dependências com (comando utilizado dentro do container docker) :
+* Install the dependencies with (command used inside the docker container):
 > npm install
 
-* Execute a aplicação com (comando utilizado dentro do container docker) :
- > npm start ou npm run dev
+* Run the application with (command used inside the docker container):
+  > npm start or npm run dev
 
-## Instalação local
+## Local installation
 
-* Instale as dependências com (comando utilizado dentro do container docker) :
+* Install the dependencies with (command used inside the docker container):
 > npm install
 
-* Execute a aplicação com (comando utilizado dentro do container docker) :
- > npm start ou npm run dev
+* Run the application with (command used inside the docker container):
+  > npm start or npm run dev
 
- Para rodar o projeto desta forma, obrigatoriamente você deve ter o node instalado em seu computador
+  To run the project this way, you must have node installed on your computer
 #
